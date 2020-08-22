@@ -48,10 +48,10 @@ class FillNulls(BaseEstimator, TransformerMixin):
             c for c in self.select_dtypes(include=include).columns
         ]
         return typed_cols
-
-    #completa los nulos con valores promedio
-    def _fill_nulls(self): 
-        data = self.copy()
+  
+    def transform(self, X):
+        data = X.copy()
+        #df = _fill_nulls(data)
         for t in ['num', 'cat']:
             cols = _get_typed_cols(data, col_type=t)
             for c in cols:
@@ -62,8 +62,3 @@ class FillNulls(BaseEstimator, TransformerMixin):
                     common_val = val_count.index.tolist()[0]
                     data[c] = data[c].fillna(common_val)
         return data
-    
-    def transform(self, X):
-        data = X.copy()
-        df = _fill_nulls(data)
-        return df
