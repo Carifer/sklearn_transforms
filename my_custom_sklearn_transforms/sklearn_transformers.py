@@ -1,6 +1,8 @@
 from sklearn.base import BaseEstimator, TransformerMixin
 
+import numpy as np
 import logging
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s-%(name)s-%(levelname)s: %(message)s',
