@@ -10,6 +10,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+def _get_typed_cols(data, col_type ='cat'): 
+    assert col_type in ('cat', 'num')
+    include = 'object' if col_type == 'cat' else [np.number]
+    typed_cols = [
+        c for c in data.select_dtypes(include=include).columns
+    ]
+    return typed_cols
+
 # All sklearn Transforms must have the `transform` and `fit` methods
 class DropColumns(BaseEstimator, TransformerMixin):
     def __init__(self, columns):
@@ -43,13 +51,7 @@ class FillNulls(BaseEstimator, TransformerMixin):
         return self
         
     #define el tipo de la columna
-    def _get_typed_cols(self, col_type ='cat'): 
-        assert col_type in ('cat', 'num')
-        include = 'object' if col_type == 'cat' else [np.number]
-        typed_cols = [
-            c for c in self.select_dtypes(include=include).columns
-        ]
-        return typed_cols
+
   
     def transform(self, X):
         data = X.copy()
